@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">My Test Android Application</string>
+    <string name="clickButton">Нажми на кнопку</string>
+    <string name="deleteTextButton">Удалить текст</string>
+</resources>
