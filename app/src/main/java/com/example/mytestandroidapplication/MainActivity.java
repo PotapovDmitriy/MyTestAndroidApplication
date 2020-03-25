@@ -1,6 +1,8 @@
 package com.example.mytestandroidapplication;
 
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.os.Bundle;
 
 
@@ -13,8 +15,11 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ChangeBackgroundColorDialog.ChangeBackgroundColorDialogListener {
+
+    View myView = findViewById(R.id.container);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickDeleteText(View view) {
         TextView textView = findViewById(R.id.hello);
+
         textView.setText("");
     }
 
@@ -44,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.line1:
                 Toast.makeText(this, "Не надо так!!!!", Toast.LENGTH_SHORT).show();
                 break;
@@ -52,10 +58,29 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Сюда можно)))", Toast.LENGTH_SHORT).show();
                 break;
             default:
-                Dialog dialog = new Dialog();
-                dialog.show(getSupportFragmentManager(),"Notice");
+                ChangeBackgroundColorDialog dialog = new ChangeBackgroundColorDialog();
+                dialog.show(getSupportFragmentManager(), "ChangeBackgroundColorDialog");
         }
-        return  super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
     }
 
+
+    @SuppressLint("ResourceAsColor")
+    @Override
+    public void onDialogWhiteClick(DialogFragment dialog) {
+        myView.setBackgroundColor(R.color.white);
+    }
+
+    @SuppressLint("ResourceAsColor")
+    @Override
+    public void onDialogBlueClick(DialogFragment dialog) {
+        myView.setBackgroundColor(R.color.blue);
+    }
+
+    @SuppressLint("ResourceAsColor")
+    @Override
+    public void onDialogGreenClick(DialogFragment dialog) {
+        myView.setBackgroundColor(R.color.green);
+    }
 }
+
