@@ -43,55 +43,36 @@ public class ChangeBackgroundColorDialog extends DialogFragment {
         }
     }
 
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Title")
-                .setPositiveButton(R.string.white, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        mListener.onDialogWhiteClick(ChangeBackgroundColorDialog.this);
-                    }
-                })
-                .setNegativeButton(R.string.green, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        mListener.onDialogGreenClick(ChangeBackgroundColorDialog.this);
-                    }
-                })
-                .setNeutralButton(R.string.blue, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        mListener.onDialogBlueClick(ChangeBackgroundColorDialog.this);
-                    }
-                });
-        return builder.create();
-    }
 
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        Objects.requireNonNull(getDialog()).setTitle("Title!");
-//        View v = inflater.inflate(R.layout.change_background_color_dialog, null);
-//        btnWhite = v.findViewById(R.id.btnWhite);
-//        btnWhite.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mListener.onDialogWhiteClick(ChangeBackgroundColorDialog.this);
-//            }
-//        });
-//        btnBlue = v.findViewById(R.id.btnBlue);
-//        btnBlue.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mListener.onDialogBlueClick(ChangeBackgroundColorDialog.this);
-//            }
-//        });
-//        btnGreen = v.findViewById(R.id.btnGreen);
-//        btnGreen.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mListener.onDialogGreenClick(ChangeBackgroundColorDialog.this);
-//            }
-//        });
-//        return v;
-//    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        Objects.requireNonNull(getDialog()).setTitle("Title!");
+        View v = inflater.inflate(R.layout.change_background_color_dialog, null);
+        btnWhite = v.findViewById(R.id.btnWhite);
+        btnWhite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onDialogWhiteClick(ChangeBackgroundColorDialog.this);
+            }
+        });
+        btnBlue = v.findViewById(R.id.btnBlue);
+        btnBlue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onDialogBlueClick(ChangeBackgroundColorDialog.this);
+            }
+        });
+        btnGreen = v.findViewById(R.id.btnGreen);
+        btnGreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onDialogGreenClick(ChangeBackgroundColorDialog.this);
+            }
+        });
+        return v;
+    }
 
 }
 

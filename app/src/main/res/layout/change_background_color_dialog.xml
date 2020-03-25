@@ -26,20 +26,22 @@
 
         <Button
             android:id="@+id/btnBlue"
-            android:layout_width="wrap_content"
+
+            android:layout_width="67dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="@string/blue" />
 
         <Button
             android:id="@+id/btnWhite"
-            android:layout_width="wrap_content"
+            android:layout_width="67dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="@string/white" />
+
         <Button
             android:id="@+id/btnGreen"
-            android:layout_width="wrap_content"
+            android:layout_width="69dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="@string/green" />

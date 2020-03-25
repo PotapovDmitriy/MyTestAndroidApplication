@@ -19,7 +19,7 @@ import androidx.fragment.app.DialogFragment;
 
 public class MainActivity extends AppCompatActivity implements ChangeBackgroundColorDialog.ChangeBackgroundColorDialogListener {
 
-    View myView = findViewById(R.id.container);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,18 +68,21 @@ public class MainActivity extends AppCompatActivity implements ChangeBackgroundC
     @SuppressLint("ResourceAsColor")
     @Override
     public void onDialogWhiteClick(DialogFragment dialog) {
+        View myView = findViewById(R.id.container);
         myView.setBackgroundColor(R.color.white);
     }
 
     @SuppressLint("ResourceAsColor")
     @Override
     public void onDialogBlueClick(DialogFragment dialog) {
+        View myView = findViewById(R.id.container);
         myView.setBackgroundColor(R.color.blue);
     }
 
     @SuppressLint("ResourceAsColor")
     @Override
     public void onDialogGreenClick(DialogFragment dialog) {
+        View myView = findViewById(R.id.container);
         myView.setBackgroundColor(R.color.green);
     }
 }
