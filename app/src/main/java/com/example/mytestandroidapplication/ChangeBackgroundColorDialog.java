@@ -29,8 +29,8 @@ public class ChangeBackgroundColorDialog extends DialogFragment {
     }
 
 
-    ChangeBackgroundColorDialogListener mListener;
-    public Button btnBlue, btnWhite, btnGreen;
+    private ChangeBackgroundColorDialogListener mListener;
+    private Button btnBlue, btnWhite, btnGreen;
 
     @Override
     public void onAttach(@NonNull Activity activity) {

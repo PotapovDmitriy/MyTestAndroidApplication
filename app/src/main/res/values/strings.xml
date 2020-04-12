@@ -9,4 +9,16 @@
     <string name="white">White </string>
     <string name="green">Green </string>
     <string name="blue">Blue </string>
+    <string name="second_activity">second activity</string>
+    <string name="bgColor">Поменять цвет фона</string>
+    <string name="infoAbout">Заполнить информацию о себе</string>
+    <string name="save_data">Сохранить информацию</string>
+    <string name="name">Имя</string>
+    <string name="second_name">Фамилия</string>
+    <string name="dob">Дата рождения</string>
+    <string name="email">Email</string>
+    <string name="number">Номер телефона</string>
+    <string name="load_data">Загрузить информацию</string>
+    <string name="backToMain">Вернуться на главную</string>
+    <string name="clear">Очистить поля</string>
 </resources>
