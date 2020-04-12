@@ -1,5 +1,12 @@
 <resources>
-    <string name="app_name">My Test Android Application</string>
+    <string name="app_name">My  Test Application</string>
     <string name="clickButton">Нажми на кнопку</string>
-    <string name="deleteTextButton">Удалить текст</string>
+    <string name="deleteTextButton">Стереть текст</string>
+    <string name="cancel">Cancel</string>
+    <string name="fire">OK</string>
+    <string name="dialog_fire_missiles">Just click </string>
+    <string name="dialog_title">Pick color for background </string>
+    <string name="white">White </string>
+    <string name="green">Green </string>
+    <string name="blue">Blue </string>
 </resources>

@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+<!--        android:background="@color/blue">-->
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/hello"
         android:layout_width="wrap_content"
@@ -27,8 +36,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.367"
-        />
+        app:layout_constraintVertical_bias="0.367" />
 
     <Button
         android:id="@+id/deleteButton"

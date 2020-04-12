@@ -10,7 +10,7 @@
 
     <item
         android:id="@+id/line2"
-        android:title="Второй пункт"
+        android:title="Поменять цвет фона"
         app:showAsAction="collapseActionView">
     </item>
 
@@ -20,14 +20,5 @@
         app:showAsAction="ifRoom"
         android:icon="@drawable/input">
     </item>
-    <item
-        android:id="@+id/line4"
-        android:title="Четвертый пункт"
-        app:showAsAction="never">
-    </item>
-    <item
-        android:id="@+id/line5"
-        android:title="Третий пункт"
-        app:showAsAction="withText">
-    </item>
+
 </menu>
