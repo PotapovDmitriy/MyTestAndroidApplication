@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -17,7 +16,7 @@ public class SecondActivity extends Activity implements OnClickListener {
     EditText etName, etSecondName, etMail, etDOB, etNum;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-    Button btnSave, btnBack, btnClr;
+    Button btnReady, btnClr;
     Intent intent;
 
     public static String NAME = "name";
@@ -38,22 +37,15 @@ public class SecondActivity extends Activity implements OnClickListener {
         etDOB = findViewById(R.id.etDOB);
         etNum = findViewById(R.id.etNum);
 
-        intent = new Intent(this, MainActivity.class);
-
-        btnSave = findViewById(R.id.btnSave);
-        btnSave.setOnClickListener(this);
-        btnBack = findViewById(R.id.btnBackToMain);
-        btnBack.setOnClickListener(this);
+        btnReady = findViewById(R.id.btnReady);
+        btnReady.setOnClickListener(this);
         btnClr = findViewById(R.id.btnClear);
         btnClr.setOnClickListener(this);
-
         LoadText();
 
     }
 
     private void LoadText() {
-
-        sharedPreferences = getPreferences(MODE_PRIVATE);
 
         etName.setText(sharedPreferences.getString(NAME, ""));
         etSecondName.setText(sharedPreferences.getString(SNAME, ""));
@@ -62,21 +54,22 @@ public class SecondActivity extends Activity implements OnClickListener {
         etNum.setText(sharedPreferences.getString(NUM, ""));
     }
 
+    private boolean checkFields() {
+        return (etName.length() >= 1) && etSecondName.length() >= 1 && etMail.length() >= 1
+                && etDOB.length() >= 1 && etNum.length() >= 1;
+    }
+
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnSave:
-                saveText();
-                Toast.makeText(this, "Данные сохранены и отправленны на главную страницу", Toast.LENGTH_SHORT).show();
-                etName.setText("");
-                etSecondName.setText("");
-                etDOB.setText("");
-                etNum.setText("");
-                etMail.setText("");
-                break;
-            case R.id.btnBackToMain:
-                startActivity(intent);
+            case R.id.btnReady:
+                if (checkFields()) {
+                    saveText();
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(this, "Все поля должны быть заполнены", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.btnClear:
                 etName.setText("");
@@ -92,6 +85,8 @@ public class SecondActivity extends Activity implements OnClickListener {
 
 
     private void saveText() {
+
+        intent = new Intent(this, ThirdActivity.class);
         intent.putExtra(NAME, etName.getText().toString());
         intent.putExtra(SNAME, etSecondName.getText().toString());
         intent.putExtra(DOB, etDOB.getText().toString());

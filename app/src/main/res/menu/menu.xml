@@ -27,4 +27,11 @@
         android:icon="@drawable/input">
     </item>
 
+    <item
+        android:id="@+id/line5"
+        android:title="@string/about"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/input">
+    </item>
+
 </menu>

@@ -22,49 +22,20 @@
         android:orientation="vertical">
 
 
-        <Button
-            android:id="@+id/btnLoad"
+        <TextView
+            android:id="@+id/tvRnd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/load_data" />
-
-
-        <TextView
-            android:id="@+id/tvName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="10dp" />
+            android:text="@string/clickButton"
+            android:textSize="30sp" />
 
-        <TextView
-            android:id="@+id/tvSecondName"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/btnRnd"
+            android:layout_width="wrap_content"
+            android:layout_margin="20dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp" />
-
-        <TextView
-            android:id="@+id/tvMail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp" />
-
-
-        <TextView
-            android:id="@+id/tvDOB"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp" />
-
-        <TextView
-            android:id="@+id/tvNum"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp" />
-
+            android:text="@string/clickButton" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

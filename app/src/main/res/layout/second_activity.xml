@@ -16,10 +16,10 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btnSave"
+                android:id="@+id/btnClear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/save_data" />
+                android:text="@string/clear" />
 
 
         </LinearLayout>
@@ -76,16 +76,10 @@
             android:inputType="number" />
 
         <Button
-            android:id="@+id/btnBackToMain"
+            android:id="@+id/btnReady"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/backToMain" />
-
-        <Button
-            android:id="@+id/btnClear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/clear" />
+            android:text="@string/ready" />
 
 
     </LinearLayout>

@@ -2,18 +2,13 @@ package com.example.mytestandroidapplication;
 
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-
-
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,16 +18,11 @@ import androidx.fragment.app.DialogFragment;
 
 public class MainActivity extends AppCompatActivity implements ChangeBackgroundColorDialog.ChangeBackgroundColorDialogListener, View.OnClickListener {
 
-    Button btnLoadInfo;
-    TextView tvName, tvSecondName, tvMail, tvDOB, tvNum;
-    Intent intent;
 
-    public static String NAME = "name";
-    public static String SNAME = "sname";
-    public static String EMAIL = "email";
-    public static String DOB = "dob";
-    public static String NUM = "number";
-    SharedPreferences sPref;
+    Button btnRnd;
+    TextView tvRnd;
+    private String flag;
+    Intent intent;
 
 
     @Override
@@ -40,16 +30,12 @@ public class MainActivity extends AppCompatActivity implements ChangeBackgroundC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        tvRnd = findViewById(R.id.tvRnd);
+        btnRnd = findViewById(R.id.btnRnd);
+        btnRnd.setOnClickListener(this);
+
         intent = getIntent();
-        tvName = findViewById(R.id.tvName);
-        tvSecondName = findViewById(R.id.tvSecondName);
-        tvMail = findViewById(R.id.tvMail);
-        tvDOB = findViewById(R.id.tvDOB);
-        tvNum = findViewById(R.id.tvNum);
-
-
-        btnLoadInfo = findViewById(R.id.btnLoad);
-        btnLoadInfo.setOnClickListener(this);
+        flag = intent.getStringExtra("flag");
     }
 
 
@@ -70,14 +56,26 @@ public class MainActivity extends AppCompatActivity implements ChangeBackgroundC
             case R.id.line3:
                 Toast.makeText(this, "Сюда можно)))", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.line4:
-                Intent intent = new Intent(this, SecondActivity.class);
-                startActivity(intent);
+            case R.id.line5:
+                if (!(flag == null)) {
+                    Intent intent2 = new Intent(this, ThirdActivity.class);
+                    startActivity(intent2);
+                } else {
+                    Intent intent = new Intent(this, SecondActivity.class);
+                    startActivity(intent);
+                }
+
                 break;
             case R.id.line2:
                 ChangeBackgroundColorDialog dialog = new ChangeBackgroundColorDialog();
                 dialog.show(getSupportFragmentManager(), "ChangeBackgroundColorDialog");
                 break;
+            case R.id.line4:
+                Intent intent2 = new Intent(this, SecondActivity.class);
+                startActivity(intent2);
+
+                break;
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -88,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements ChangeBackgroundC
     public void onDialogWhiteClick(DialogFragment dialog) {
         View myView = findViewById(R.id.container);
         myView.setBackgroundColor(R.color.white);
+        dialog.dismiss();
     }
 
     @SuppressLint("ResourceAsColor")
@@ -95,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements ChangeBackgroundC
     public void onDialogBlueClick(DialogFragment dialog) {
         View myView = findViewById(R.id.container);
         myView.setBackgroundColor(R.color.blue);
+        dialog.dismiss();
     }
 
     @SuppressLint("ResourceAsColor")
@@ -102,25 +102,26 @@ public class MainActivity extends AppCompatActivity implements ChangeBackgroundC
     public void onDialogGreenClick(DialogFragment dialog) {
         View myView = findViewById(R.id.container);
         myView.setBackgroundColor(R.color.green);
+        dialog.dismiss();
     }
 
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnLoad:
-                tvName.setText(intent.getStringExtra("name"));
-                tvSecondName.setText(intent.getStringExtra("sname"));
-                tvMail.setText(intent.getStringExtra("email"));
-                tvDOB.setText(intent.getStringExtra("dob"));
-                tvNum.setText(intent.getStringExtra("number"));
+            case R.id.btnRnd:
+                double a = Math.random();
+                if (a > 0.5) {
+                    double b = Math.random() * 100;
+                    tvRnd.setText(Double.toString((int) b));
+                } else {
+                    double b = Math.random() * 10;
+                    tvRnd.setText(Double.toString((int) b));
+                }
                 break;
             default:
                 break;
         }
     }
-
-
-
 }
 
