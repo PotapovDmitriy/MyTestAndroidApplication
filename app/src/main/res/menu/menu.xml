@@ -3,22 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/line1"
+        android:icon="@drawable/racer"
         android:title="Первый пункт"
-        app:showAsAction="always"
-        android:icon="@drawable/racer">
+        app:showAsAction="always">
+
     </item>
 
     <item
         android:id="@+id/line2"
-        android:title="Поменять цвет фона"
+        android:title="@string/bgColor"
         app:showAsAction="collapseActionView">
+
     </item>
+
 
     <item
         android:id="@+id/line3"
+        android:icon="@drawable/input"
         android:title="Третий пункт"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/input">
+        app:showAsAction="ifRoom">
+
+    </item>
+
+    <item
+        android:id="@+id/line5"
+        android:icon="@drawable/input"
+        android:title="@string/about"
+        app:showAsAction="ifRoom">
+
     </item>
 
 </menu>

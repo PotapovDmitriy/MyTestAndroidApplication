@@ -2,14 +2,13 @@ package com.example.mytestandroidapplication;
 
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
-
-
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,26 +16,27 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
-public class MainActivity extends AppCompatActivity implements ChangeBackgroundColorDialog.ChangeBackgroundColorDialogListener {
+public class MainActivity extends AppCompatActivity implements ChangeBackgroundColorDialog.ChangeBackgroundColorDialogListener, View.OnClickListener {
 
+
+    Button btnRnd;
+    TextView tvRnd;
+    private String flag;
+    Intent intent;
+    public static String FLAG = "flag";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
 
+        tvRnd = findViewById(R.id.tvRnd);
+        btnRnd = findViewById(R.id.btnRnd);
+        btnRnd.setOnClickListener(this);
 
-    public void onClickWriteText(View view) {
-        TextView textView = findViewById(R.id.hello);
-        textView.setText("Вот твой РЕЗУЛЬТАТ");
-    }
-
-    public void onClickDeleteText(View view) {
-        TextView textView = findViewById(R.id.hello);
-
-        textView.setText("");
+        intent = getIntent();
+        flag = intent.getStringExtra("flag");
     }
 
 
@@ -57,9 +57,22 @@ public class MainActivity extends AppCompatActivity implements ChangeBackgroundC
             case R.id.line3:
                 Toast.makeText(this, "Сюда можно)))", Toast.LENGTH_SHORT).show();
                 break;
-            default:
+            case R.id.line5:
+                if (!(flag == null)) {
+                    Intent intent2 = new Intent(this, ThirdActivity.class);
+                    intent2.putExtra(FLAG, "str");
+                    startActivity(intent2);
+                } else {
+                    Intent intent = new Intent(this, SecondActivity.class);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.line2:
                 ChangeBackgroundColorDialog dialog = new ChangeBackgroundColorDialog();
                 dialog.show(getSupportFragmentManager(), "ChangeBackgroundColorDialog");
+                break;
+
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -70,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements ChangeBackgroundC
     public void onDialogWhiteClick(DialogFragment dialog) {
         View myView = findViewById(R.id.container);
         myView.setBackgroundColor(R.color.white);
+        dialog.dismiss();
     }
 
     @SuppressLint("ResourceAsColor")
@@ -77,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements ChangeBackgroundC
     public void onDialogBlueClick(DialogFragment dialog) {
         View myView = findViewById(R.id.container);
         myView.setBackgroundColor(R.color.blue);
+        dialog.dismiss();
     }
 
     @SuppressLint("ResourceAsColor")
@@ -84,6 +99,26 @@ public class MainActivity extends AppCompatActivity implements ChangeBackgroundC
     public void onDialogGreenClick(DialogFragment dialog) {
         View myView = findViewById(R.id.container);
         myView.setBackgroundColor(R.color.green);
+        dialog.dismiss();
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnRnd:
+                double a = Math.random();
+                if (a > 0.5) {
+                    double b = Math.random() * 100;
+                    tvRnd.setText(Double.toString((int) b));
+                } else {
+                    double b = Math.random() * 10;
+                    tvRnd.setText(Double.toString((int) b));
+                }
+                break;
+            default:
+                break;
+        }
     }
 }
 

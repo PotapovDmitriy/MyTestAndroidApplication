@@ -11,46 +11,31 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
-<!--        android:background="@color/blue">-->
+        <!--        android:background="@color/blue">-->
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/hello"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onClickWriteText"
-        android:text="@string/clickButton"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.367" />
 
-    <Button
-        android:id="@+id/deleteButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="139dp"
-        android:layout_marginTop="57dp"
-        android:layout_marginEnd="140dp"
-        android:layout_marginBottom="243dp"
-        android:onClick="onClickDeleteText"
-        android:text="@string/deleteTextButton"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hello" />
+        <TextView
+            android:id="@+id/tvRnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/clickButton"
+            android:textSize="30sp" />
+
+        <Button
+            android:id="@+id/btnRnd"
+            android:layout_width="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_height="wrap_content"
+            android:text="@string/clickButton" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
