@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements ChangeBackgroundC
     TextView tvRnd;
     private String flag;
     Intent intent;
+    public static String FLAG = "flag";
 
 
     @Override
@@ -59,22 +60,18 @@ public class MainActivity extends AppCompatActivity implements ChangeBackgroundC
             case R.id.line5:
                 if (!(flag == null)) {
                     Intent intent2 = new Intent(this, ThirdActivity.class);
+                    intent2.putExtra(FLAG, "str");
                     startActivity(intent2);
                 } else {
                     Intent intent = new Intent(this, SecondActivity.class);
                     startActivity(intent);
                 }
-
                 break;
             case R.id.line2:
                 ChangeBackgroundColorDialog dialog = new ChangeBackgroundColorDialog();
                 dialog.show(getSupportFragmentManager(), "ChangeBackgroundColorDialog");
                 break;
-            case R.id.line4:
-                Intent intent2 = new Intent(this, SecondActivity.class);
-                startActivity(intent2);
 
-                break;
 
         }
         return super.onOptionsItemSelected(item);
