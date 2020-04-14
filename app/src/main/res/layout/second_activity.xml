@@ -23,9 +23,9 @@
 
             <EditText
                 android:id="@+id/etName"
-                android:layout_width="wrap_content"
+                android:layout_width="290dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="20dp"
                 android:ems="10"
                 android:gravity="center"
                 android:hint="@string/name"
@@ -49,9 +49,9 @@
 
             <EditText
                 android:id="@+id/etSName"
-                android:layout_width="wrap_content"
+                android:layout_width="290dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="20dp"
                 android:ems="10"
                 android:gravity="center"
                 android:hint="@string/second_name"
@@ -73,9 +73,9 @@
 
             <EditText
                 android:id="@+id/etDOB"
-                android:layout_width="match_parent"
+                android:layout_width="290dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="20dp"
                 android:ems="10"
                 android:gravity="center"
                 android:hint="@string/dob"
@@ -96,7 +96,7 @@
 
             <EditText
                 android:id="@+id/etMail"
-                android:layout_width="match_parent"
+                android:layout_width="290dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:ems="10"
@@ -118,7 +118,7 @@
 
             <EditText
                 android:id="@+id/etNum"
-                android:layout_width="match_parent"
+                android:layout_width="290dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:ems="10"
