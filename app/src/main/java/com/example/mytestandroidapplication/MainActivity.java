@@ -1,9 +1,16 @@
 package com.example.mytestandroidapplication;
 
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.hardware.Camera;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,6 +21,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 public class MainActivity extends AppCompatActivity implements ChangeBackgroundColorDialog.ChangeBackgroundColorDialogListener, View.OnClickListener {
@@ -24,19 +33,30 @@ public class MainActivity extends AppCompatActivity implements ChangeBackgroundC
     private String flag;
     Intent intent;
     public static String FLAG = "flag";
+    private Camera cam;
+    private boolean lightOn = false;
+    private Thread t ;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         tvRnd = findViewById(R.id.tvRnd);
         btnRnd = findViewById(R.id.btnRnd);
         btnRnd.setOnClickListener(this);
 
         intent = getIntent();
         flag = intent.getStringExtra("flag");
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -47,6 +67,16 @@ public class MainActivity extends AppCompatActivity implements ChangeBackgroundC
         return super.onCreateOptionsMenu(menu);
     }
 
+    public void checkPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Camera permission not found", Toast.LENGTH_SHORT);
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.CAMERA}, 0);
+
+        }
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -54,8 +84,24 @@ public class MainActivity extends AppCompatActivity implements ChangeBackgroundC
             case R.id.line1:
                 Toast.makeText(this, "Не надо так!!!!", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.line3:
-                Toast.makeText(this, "Сюда можно)))", Toast.LENGTH_SHORT).show();
+            case R.id.light:
+                checkPermission();
+                cam = Camera.open();
+                t = new Thread(new Runnable() {
+                    public void run() {
+                        Camera.Parameters p = cam.getParameters();
+                        if (lightOn) {
+                            p.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                            lightOn = false;
+                        } else {
+                            lightOn = true;
+                            p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                        }
+                        cam.setParameters(p);
+                        cam.startPreview();
+                    }
+                });
+                t.start();
                 break;
             case R.id.line5:
                 if (!(flag == null)) {
@@ -74,7 +120,10 @@ public class MainActivity extends AppCompatActivity implements ChangeBackgroundC
 
 
         }
-        return super.onOptionsItemSelected(item);
+        return super.
+
+                onOptionsItemSelected(item);
+
     }
 
 
