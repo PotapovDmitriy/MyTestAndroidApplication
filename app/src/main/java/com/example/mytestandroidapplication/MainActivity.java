@@ -35,19 +35,28 @@ public class MainActivity extends AppCompatActivity implements ChangeBackgroundC
     public static String FLAG = "flag";
     private Camera cam;
     private boolean lightOn = false;
+    private Thread t ;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        checkPermission();
         tvRnd = findViewById(R.id.tvRnd);
         btnRnd = findViewById(R.id.btnRnd);
         btnRnd.setOnClickListener(this);
 
         intent = getIntent();
         flag = intent.getStringExtra("flag");
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -76,8 +85,9 @@ public class MainActivity extends AppCompatActivity implements ChangeBackgroundC
                 Toast.makeText(this, "Не надо так!!!!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.light:
+                checkPermission();
                 cam = Camera.open();
-                new Thread(new Runnable() {
+                t = new Thread(new Runnable() {
                     public void run() {
                         Camera.Parameters p = cam.getParameters();
                         if (lightOn) {
@@ -90,7 +100,8 @@ public class MainActivity extends AppCompatActivity implements ChangeBackgroundC
                         cam.setParameters(p);
                         cam.startPreview();
                     }
-                }).start();
+                });
+                t.start();
                 break;
             case R.id.line5:
                 if (!(flag == null)) {
