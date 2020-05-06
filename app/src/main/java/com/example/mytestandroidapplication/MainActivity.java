@@ -49,16 +49,6 @@ public class MainActivity extends AppCompatActivity implements ChangeBackgroundC
         intent = getIntent();
         flag = intent.getStringExtra("flag");
     }
-    @Override
-    protected void onPause() {
-        super.onPause();
-        try {
-            t.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -85,8 +75,10 @@ public class MainActivity extends AppCompatActivity implements ChangeBackgroundC
                 Toast.makeText(this, "Не надо так!!!!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.light:
-                checkPermission();
-                cam = Camera.open();
+                if(  cam == null){
+                    checkPermission();
+                    cam = Camera.open();
+                }
                 t = new Thread(new Runnable() {
                     public void run() {
                         Camera.Parameters p = cam.getParameters();

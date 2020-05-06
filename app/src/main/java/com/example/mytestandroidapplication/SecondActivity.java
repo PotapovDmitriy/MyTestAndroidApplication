@@ -16,7 +16,7 @@ public class SecondActivity extends Activity implements OnClickListener {
     EditText etName, etSecondName, etMail, etDOB, etNum;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-    Button btnReady, btnClr;
+    Button btnReady;
     Intent intent;
 
     public static String NAME = "name";
@@ -36,11 +36,10 @@ public class SecondActivity extends Activity implements OnClickListener {
         etMail = findViewById(R.id.etMail);
         etDOB = findViewById(R.id.etDOB);
         etNum = findViewById(R.id.etNum);
+        setTitle("Заполните информацию о себе");
 
         btnReady = findViewById(R.id.btnReady);
         btnReady.setOnClickListener(this);
-        btnClr = findViewById(R.id.btnClear);
-        btnClr.setOnClickListener(this);
         LoadText();
 
     }
@@ -70,13 +69,6 @@ public class SecondActivity extends Activity implements OnClickListener {
                 } else {
                     Toast.makeText(this, "Все поля должны быть заполнены", Toast.LENGTH_SHORT).show();
                 }
-                break;
-            case R.id.btnClear:
-                etName.setText("");
-                etSecondName.setText("");
-                etDOB.setText("");
-                etNum.setText("");
-                etMail.setText("");
                 break;
             default:
                 break;

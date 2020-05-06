@@ -17,6 +17,7 @@
         android:fontFamily="sans-serif-medium"
         android:textSize="16sp"
         android:text="@string/dialog_title"
+
         android:textAppearance="?android:attr/textAppearanceLarge"/>
 
     <LinearLayout
@@ -30,20 +31,26 @@
             android:layout_width="67dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="@string/blue" />
+            android:text="@string/blue"
+            android:textColor="@color/white"
+            android:background="@drawable/border"/>
 
         <Button
             android:id="@+id/btnWhite"
             android:layout_width="67dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="@string/white" />
+            android:text="@string/white"
+            android:textColor="@color/white"
+            android:background="@drawable/border"/>
 
         <Button
             android:id="@+id/btnGreen"
             android:layout_width="69dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="@string/green" />
+            android:text="@string/green"
+            android:textColor="@color/white"
+            android:background="@drawable/border"/>
     </LinearLayout>
 </LinearLayout>

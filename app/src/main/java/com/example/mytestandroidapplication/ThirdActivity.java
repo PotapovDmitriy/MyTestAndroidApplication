@@ -36,7 +36,7 @@ public class ThirdActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_third);
         sharedPreferences = getPreferences(MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        setTitle("About me");
+        setTitle("О бо мне");
 
         intent = getIntent();
         tvName = findViewById(R.id.tvName);

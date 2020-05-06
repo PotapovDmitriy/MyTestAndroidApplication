@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,142 +10,137 @@
         android:gravity="center"
         android:orientation="vertical">
 
+<!--        <LinearLayout-->
+<!--            -->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_width="350sp"-->
+<!--            android:layout_marginBottom="20sp">-->
+<!--            <TextView-->
+<!--                android:id="@+id/textView"-->
+<!--                android:textSize="30sp"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/info_about_me" />-->
+<!--        </LinearLayout>-->
 
-        <LinearLayout
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="350sp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:hint="@string/name"
+            android:orientation="horizontal"
+            app:endIconMode="clear_text"
+            app:startIconDrawable="@drawable/person_black">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/person_black" />
-
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etName"
                 android:layout_width="290dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:ems="10"
-                android:gravity="center"
-                android:hint="@string/name"
                 android:inputType="text"
                 android:textSize="25sp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-
-        </LinearLayout>
-
-
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="350sp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:hint="@string/second_name"
+            android:orientation="horizontal"
+            app:endIconMode="clear_text"
+            app:startIconDrawable="@drawable/person_black">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/person_black" />
-
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etSName"
                 android:layout_width="290dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:ems="10"
-                android:gravity="center"
-                android:hint="@string/second_name"
                 android:inputType="text"
                 android:textSize="25sp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        </LinearLayout>
 
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="350sp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:hint="@string/dob"
+            android:orientation="horizontal"
+            app:endIconMode="clear_text"
+            app:startIconDrawable="@drawable/cake">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/cake" />
-
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etDOB"
                 android:layout_width="290dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:ems="10"
-                android:gravity="center"
-                android:hint="@string/dob"
-                android:inputType="date" />
+                android:inputType="date"
+                android:textSize="25sp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        </LinearLayout>
 
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="350sp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:hint="@string/email"
+            android:orientation="horizontal"
+            app:endIconMode="clear_text"
+            app:startIconDrawable="@drawable/email">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/email" />
-
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etMail"
                 android:layout_width="290dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:ems="10"
-                android:gravity="center"
-                android:hint="@string/email"
-                android:inputType="textEmailAddress" />
-        </LinearLayout>
+                android:inputType="textEmailAddress"
+                android:textSize="25sp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <LinearLayout
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="350sp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:hint="@string/number"
+            android:orientation="horizontal"
+            app:endIconMode="clear_text"
+            app:startIconDrawable="@drawable/phone">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/phone" />
-
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etNum"
                 android:layout_width="290dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:ems="10"
-                android:gravity="center"
-                android:hint="@string/number"
-                android:inputType="number" />
-        </LinearLayout>
+                android:inputType="phone"
+                android:textSize="25sp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="40sp">
 
             <Button
                 android:id="@+id/btnReady"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/ready" />
+                android:text="@string/ready"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:padding="15sp"
+                android:background="@drawable/border"/>
 
-            <Button
-                android:id="@+id/btnClear"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/clear" />
+
 
 
         </LinearLayout>

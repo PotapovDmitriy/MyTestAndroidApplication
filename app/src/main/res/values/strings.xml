@@ -24,4 +24,5 @@
     <string name="about">О бо мне</string>
     <string name="ready">Готово</string>
     <string name="aboutText">About me</string>
+    <string name="info_about_me">заполните информацию о себе</string>
 </resources>
