@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements ChangeBackgroundC
     public static String FLAG = "flag";
     private Camera cam;
     private boolean lightOn = false;
-    private Thread t ;
+    private Thread t;
 
 
     @Override
@@ -72,10 +73,13 @@ public class MainActivity extends AppCompatActivity implements ChangeBackgroundC
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.line1:
-                Toast.makeText(this, "Не надо так!!!!", Toast.LENGTH_SHORT).show();
+
+                Intent intent1 = new Intent(this, WeatherActivity.class);
+                startActivity(intent1);
+
                 break;
             case R.id.light:
-                if(  cam == null){
+                if (cam == null) {
                     checkPermission();
                     cam = Camera.open();
                 }
@@ -101,8 +105,8 @@ public class MainActivity extends AppCompatActivity implements ChangeBackgroundC
                     intent2.putExtra(FLAG, "str");
                     startActivity(intent2);
                 } else {
-                    Intent intent = new Intent(this, SecondActivity.class);
-                    startActivity(intent);
+                    Intent intent2 = new Intent(this, SecondActivity.class);
+                    startActivity(intent2);
                 }
                 break;
             case R.id.line2:
@@ -112,9 +116,7 @@ public class MainActivity extends AppCompatActivity implements ChangeBackgroundC
 
 
         }
-        return super.
-
-                onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
 
     }
 
