@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,13 +26,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class WeatherActivity extends AppCompatActivity {
-    static TextView city, temp, windSp;
+    static TextView city, temp, windSp, tvWeather;
     EditText etCity;
     Button showBTN;
 
@@ -49,6 +53,7 @@ public class WeatherActivity extends AppCompatActivity {
         windSp = findViewById(R.id.windSp);
         etCity = findViewById(R.id.etCity);
         showBTN = findViewById(R.id.show_weather);
+        tvWeather = findViewById(R.id.tvWeather);
 
 
     }
@@ -129,12 +134,16 @@ public class WeatherActivity extends AppCompatActivity {
             try {
                 float tempF = (float) json.getJSONObject("main").getDouble("temp");
                 float windF = (float) json.getJSONObject("wind").getInt("speed");
+                JSONArray weather =  json.getJSONArray("weather");
+                String description = weather.getJSONObject(0).getString("description");
+                System.out.println(description);
                 temp.setText("Температура: " + tempF + "°С");
-                windSp.setText("Скорость ветра: " + windF + "м/с");
-
+                windSp.setText("Скорость ветра: " + windF + " м/с");
+                tvWeather.setText(description);
 
             } catch (Exception e) {
                 temp.setText("Неверный город");
+                e.printStackTrace();
             }
         }
     }
