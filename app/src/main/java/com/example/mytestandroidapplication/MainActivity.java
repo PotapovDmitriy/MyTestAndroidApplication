@@ -3,6 +3,8 @@ package com.example.mytestandroidapplication;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.AsyncTask;
@@ -21,6 +23,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
 import org.json.JSONArray;
@@ -46,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     static TextView city, temp, windSp, tvWeather;
     EditText etCity;
     Button showBTN;
+    String cityName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,11 +73,31 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private static final int NOTIFY_ID = 101;
+
+    private void notifyMethod(String city, String text){
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(MainActivity.this);
+        String CHANNEL_ID = "Weather channel";
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_ID, NotificationManager.IMPORTANCE_HIGH);
+            notificationManager.createNotificationChannel(channel);
+        }
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(MainActivity.this, CHANNEL_ID)
+                        .setContentTitle("Погода в " + city)
+                        .setContentText(text)
+                        .setSmallIcon(R.drawable.racer)
+                        .setChannelId(CHANNEL_ID)
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        notificationManager.notify(NOTIFY_ID, builder.build());
+    }
+
+
     protected static String readAll(Reader bufferedReader) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
-        int curretChar;
-        while ((curretChar = bufferedReader.read()) != -1) {
-            stringBuilder.append((char) curretChar);
+        int currentChar;
+        while ((currentChar = bufferedReader.read()) != -1) {
+            stringBuilder.append((char) currentChar);
         }
         return stringBuilder.toString();
     }
@@ -102,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
             temp.setText("Поле \"Город\" пустое");
         } else {
             String apiKey = "18d82c5a0c9f97611a9864ef7b3c2d34";
-            String cityName = etCity.getText().toString();
+            cityName = etCity.getText().toString();
             Toast.makeText(this, cityName, Toast.LENGTH_SHORT);
             System.out.println("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + apiKey);
 
@@ -112,35 +137,41 @@ public class MainActivity extends AppCompatActivity {
             InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             assert imm != null;
             imm.hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus()).getWindowToken(), 0);
+
         }
     }
 
-    static class AsyncRequest extends AsyncTask<String, Void, JSONObject> {
+class AsyncRequest extends AsyncTask<String, Void, JSONObject> {
 
-        @Override
-        protected JSONObject doInBackground(String... arg) {
-            return readJsonFromUrl("http://api.openweathermap.org/data/2.5/weather?q=" + arg[0] + "&appid=" + arg[1] + "&units=metric");
-        }
+    @Override
+    protected JSONObject doInBackground(String... arg) {
+        return readJsonFromUrl("http://api.openweathermap.org/data/2.5/weather?q=" + arg[0] + "&appid=" + arg[1] + "&units=metric");
+    }
 
-        @SuppressLint("SetTextI18n")
-        @Override
-        protected void onPostExecute(JSONObject json) {
-            try {
-                float tempF = (float) json.getJSONObject("main").getDouble("temp");
-                float windF = (float) json.getJSONObject("wind").getInt("speed");
-                JSONArray weather = json.getJSONArray("weather");
-                String description = weather.getJSONObject(0).getString("description");
-                System.out.println(description);
-                temp.setText("Температура: " + tempF + "°С");
-                windSp.setText("Скорость ветра: " + windF + " м/с");
-                tvWeather.setText(description);
+    @SuppressLint("SetTextI18n")
+    @Override
+    protected void onPostExecute(JSONObject json) {
+        try {
+            float tempF = (float) json.getJSONObject("main").getDouble("temp");
+            float windF = (float) json.getJSONObject("wind").getInt("speed");
+            JSONArray weather = json.getJSONArray("weather");
+            String description = weather.getJSONObject(0).getString("description");
+            System.out.println(description);
+            String notifyString = "Температура: " + tempF + "°С";
+            temp.setText(notifyString);
+            windSp.setText("Скорость ветра: " + windF + " м/с");
+            tvWeather.setText(description);
+            notifyString = notifyString + "; " + description;
 
-            } catch (Exception e) {
-                temp.setText("Неверный город");
-                e.printStackTrace();
-            }
+            notifyMethod(cityName, notifyString);
+
+        } catch (Exception e) {
+            temp.setText("Неверный город");
+            e.printStackTrace();
         }
     }
+
+}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
