@@ -3,52 +3,143 @@ package com.example.mytestandroidapplication;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.Service;
-import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.DialogFragment;
 
-public class MainActivity extends AppCompatActivity implements ChangeBackgroundColorDialog.ChangeBackgroundColorDialogListener, View.OnClickListener {
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.Objects;
 
-    Button btnRnd;
-    TextView tvRnd;
-    private String flag;
-    Intent intent;
-    public static String FLAG = "flag";
+public class MainActivity extends AppCompatActivity {
+
     private Camera cam;
     private boolean lightOn = false;
     private Thread t;
 
+    static TextView city, temp, windSp, tvWeather;
+    EditText etCity;
+    Button showBTN;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        tvRnd = findViewById(R.id.tvRnd);
-        btnRnd = findViewById(R.id.btnRnd);
-        btnRnd.setOnClickListener(this);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
-        intent = getIntent();
-        flag = intent.getStringExtra("flag");
+        city = findViewById(R.id.city);
+        temp = findViewById(R.id.temp);
+        windSp = findViewById(R.id.windSp);
+        etCity = findViewById(R.id.etCity);
+        showBTN = findViewById(R.id.show_weather);
+        tvWeather = findViewById(R.id.tvWeather);
+    }
+
+
+    protected void Request(String cityName, String apiKey) {
+
+    }
+
+    protected static String readAll(Reader bufferedReader) throws IOException {
+        StringBuilder stringBuilder = new StringBuilder();
+        int curretChar;
+        while ((curretChar = bufferedReader.read()) != -1) {
+            stringBuilder.append((char) curretChar);
+        }
+        return stringBuilder.toString();
+    }
+
+    protected static JSONObject readJsonFromUrl(String url) {
+        JSONObject json = null;
+
+        try (InputStream inputStream = new URL(url).openStream()) {
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, Charset.forName("UTF-8")));
+            String jsonText = readAll(bufferedReader);
+            json = new JSONObject(jsonText);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return json;
+    }
+
+
+    @SuppressLint("ShowToast")
+    public void onShowWeatherClick(View view) {
+        System.out.println(etCity.length() == 0);
+        if (etCity.length() == 0) {
+            temp.setText("Поле \"Город\" пустое");
+        } else {
+            String apiKey = "18d82c5a0c9f97611a9864ef7b3c2d34";
+            String cityName = etCity.getText().toString();
+            Toast.makeText(this, cityName, Toast.LENGTH_SHORT);
+            System.out.println("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + apiKey);
+
+            MainActivity.AsyncRequest task = new MainActivity.AsyncRequest();
+            task.execute(cityName, apiKey);
+            etCity.clearFocus();
+            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            assert imm != null;
+            imm.hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus()).getWindowToken(), 0);
+        }
+    }
+
+    static class AsyncRequest extends AsyncTask<String, Void, JSONObject> {
+
+        @Override
+        protected JSONObject doInBackground(String... arg) {
+            return readJsonFromUrl("http://api.openweathermap.org/data/2.5/weather?q=" + arg[0] + "&appid=" + arg[1] + "&units=metric");
+        }
+
+        @SuppressLint("SetTextI18n")
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            try {
+                float tempF = (float) json.getJSONObject("main").getDouble("temp");
+                float windF = (float) json.getJSONObject("wind").getInt("speed");
+                JSONArray weather = json.getJSONArray("weather");
+                String description = weather.getJSONObject(0).getString("description");
+                System.out.println(description);
+                temp.setText("Температура: " + tempF + "°С");
+                windSp.setText("Скорость ветра: " + windF + " м/с");
+                tvWeather.setText(description);
+
+            } catch (Exception e) {
+                temp.setText("Неверный город");
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -72,12 +163,6 @@ public class MainActivity extends AppCompatActivity implements ChangeBackgroundC
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.line1:
-
-                Intent intent1 = new Intent(this, WeatherActivity.class);
-                startActivity(intent1);
-
-                break;
             case R.id.light:
                 if (cam == null) {
                     checkPermission();
@@ -99,69 +184,8 @@ public class MainActivity extends AppCompatActivity implements ChangeBackgroundC
                 });
                 t.start();
                 break;
-            case R.id.line5:
-                if (!(flag == null)) {
-                    Intent intent2 = new Intent(this, ThirdActivity.class);
-                    intent2.putExtra(FLAG, "str");
-                    startActivity(intent2);
-                } else {
-                    Intent intent2 = new Intent(this, SecondActivity.class);
-                    startActivity(intent2);
-                }
-                break;
-            case R.id.line2:
-                ChangeBackgroundColorDialog dialog = new ChangeBackgroundColorDialog();
-                dialog.show(getSupportFragmentManager(), "ChangeBackgroundColorDialog");
-                break;
-
-
         }
         return super.onOptionsItemSelected(item);
-
-    }
-
-
-    @SuppressLint("ResourceAsColor")
-    @Override
-    public void onDialogWhiteClick(DialogFragment dialog) {
-        View myView = findViewById(R.id.container);
-        myView.setBackgroundColor(R.color.white);
-        dialog.dismiss();
-    }
-
-    @SuppressLint("ResourceAsColor")
-    @Override
-    public void onDialogBlueClick(DialogFragment dialog) {
-        View myView = findViewById(R.id.container);
-        myView.setBackgroundColor(R.color.blue);
-        dialog.dismiss();
-    }
-
-    @SuppressLint("ResourceAsColor")
-    @Override
-    public void onDialogGreenClick(DialogFragment dialog) {
-        View myView = findViewById(R.id.container);
-        myView.setBackgroundColor(R.color.green);
-        dialog.dismiss();
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnRnd:
-                double a = Math.random();
-                if (a > 0.5) {
-                    double b = Math.random() * 100;
-                    tvRnd.setText(Double.toString((int) b));
-                } else {
-                    double b = Math.random() * 10;
-                    tvRnd.setText(Double.toString((int) b));
-                }
-                break;
-            default:
-                break;
-        }
     }
 }
 

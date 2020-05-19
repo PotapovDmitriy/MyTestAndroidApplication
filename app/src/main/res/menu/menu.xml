@@ -1,35 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/line1"
-        android:title="@string/weather"
-        app:showAsAction="never">
+<!--    <item-->
+<!--        android:id="@+id/line1"-->
+<!--        android:title="@string/weather"-->
+<!--        app:showAsAction="never">-->
 
-    </item>
-
-    <item
-        android:id="@+id/line2"
-        android:title="@string/bgColor"
-        app:showAsAction="collapseActionView">
-
-    </item>
+<!--    </item>-->
 
 
     <item
         android:id="@+id/light"
         android:icon="@drawable/light"
-        android:title="Третий пункт"
+        android:title="@string/lights"
         app:showAsAction="ifRoom">
 
     </item>
 
-    <item
-        android:id="@+id/line5"
-        android:icon="@drawable/input"
-        android:title="@string/about"
-        app:showAsAction="ifRoom">
 
-    </item>
 
 </menu>
