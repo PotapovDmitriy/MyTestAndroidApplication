@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My  Test Application</string>
+    <string name="app_name">Randomiser</string>
     <string name="clickButton">Нажми на кнопку</string>
     <string name="deleteTextButton">Стереть текст</string>
     <string name="cancel">Cancel</string>
@@ -25,4 +25,9 @@
     <string name="ready">Готово</string>
     <string name="aboutText">About me</string>
     <string name="info_about_me">заполните информацию о себе</string>
+    <string name="weather_dialog">ВЫ хотите глянуть погоду?</string>
+    <string name="City">Город</string>
+    <string name="show_weather">Show weather</string>
+    <string name="weather">Погода</string>
+    <string name="arrow"><![CDATA[<-]]></string>
 </resources>

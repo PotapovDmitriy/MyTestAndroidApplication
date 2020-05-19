@@ -3,9 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/line1"
-        android:icon="@drawable/racer"
-        android:title="Первый пункт"
-        app:showAsAction="always">
+        android:title="@string/weather"
+        app:showAsAction="never">
 
     </item>
 
