@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 new NotificationCompat.Builder(MainActivity.this, CHANNEL_ID)
                         .setContentTitle("Погода в " + city)
                         .setContentText(text)
-                        .setSmallIcon(R.drawable.racer)
+                        .setSmallIcon(R.drawable.weather_icon)
                         .setChannelId(CHANNEL_ID)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT);
         notificationManager.notify(NOTIFY_ID, builder.build());
@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     class AsyncRequest extends AsyncTask<String, Void, JSONObject> {
 
         @Override

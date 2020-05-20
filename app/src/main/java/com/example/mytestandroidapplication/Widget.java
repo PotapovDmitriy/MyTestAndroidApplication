@@ -1,5 +1,6 @@
 package com.example.mytestandroidapplication;
 
+import android.annotation.SuppressLint;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
@@ -34,6 +35,7 @@ public class Widget extends AppWidgetProvider {
     }
 
 
+    @SuppressLint("StaticFieldLeak")
     class AsyncWidgetRequest extends AsyncTask<String, Void, JSONObject> {
 
         @Override
