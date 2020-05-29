@@ -5,6 +5,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.AsyncTask;
@@ -27,8 +28,12 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.mytestandroidapplication.dummy.DummyContent;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.Date;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,15 +45,14 @@ public class MainActivity extends AppCompatActivity {
     static TextView city, temp, windSp, tvWeather;
     EditText etCity;
     Button showBTN;
+    private static final int NOTIFY_ID = 101;
     String cityName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+
 
         city = findViewById(R.id.city);
         temp = findViewById(R.id.temp);
@@ -58,12 +62,6 @@ public class MainActivity extends AppCompatActivity {
         tvWeather = findViewById(R.id.tvWeather);
     }
 
-
-    protected void Request(String cityName, String apiKey) {
-
-    }
-
-    private static final int NOTIFY_ID = 101;
 
     private void notifyMethod(String city, String text) {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(MainActivity.this);
@@ -100,9 +98,9 @@ public class MainActivity extends AppCompatActivity {
             InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             assert imm != null;
             imm.hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus()).getWindowToken(), 0);
-
         }
     }
+
 
     @SuppressLint("StaticFieldLeak")
     class AsyncRequest extends AsyncTask<String, Void, JSONObject> {
@@ -128,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 notifyString = notifyString + "; " + description;
 
                 notifyMethod(cityName, notifyString);
+                DummyContent.addItem(new DummyContent.WeatherDateItem(new Date().toString(), cityName, tempF, windF));
 
             } catch (Exception e) {
                 temp.setText("Неверный город");
@@ -179,6 +178,9 @@ public class MainActivity extends AppCompatActivity {
                 });
                 t.start();
                 break;
+            case R.id.weather_list:
+                Intent intentWeather = new Intent(this, WeatherListActivity.class);
+                startActivity(intentWeather);
         }
         return super.onOptionsItemSelected(item);
     }
