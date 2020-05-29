@@ -39,13 +39,15 @@ public class DummyContent {
         public final String city;
         public final float temp;
         public final float wind;
+        public final String description;
 
-        public WeatherDateItem(String date, String city, float temp, float wind) {
+        public WeatherDateItem(String date, String city, float temp, float wind, String description) {
             this.id = id + 1;
             this.date = date;
             this.city = city;
             this.temp = temp;
             this.wind = wind;
+            this.description = description;
         }
 
         @Override

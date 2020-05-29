@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 notifyString = notifyString + "; " + description;
 
                 notifyMethod(cityName, notifyString);
-                DummyContent.addItem(new DummyContent.WeatherDateItem(new Date().toString(), cityName, tempF, windF));
+                DummyContent.addItem(new DummyContent.WeatherDateItem(new Date().toString(), cityName, tempF, windF, description));
 
             } catch (Exception e) {
                 temp.setText("Неверный город");

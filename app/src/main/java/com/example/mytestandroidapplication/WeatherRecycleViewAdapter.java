@@ -39,7 +39,9 @@ public class WeatherRecycleViewAdapter extends RecyclerView.Adapter<WeatherRecyc
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(mValues.get(position).date);
-        holder.mContentView.setText("City: " + mValues.get(position).city + " Temp: " + mValues.get(position).temp + " Wind: " + mValues.get(position).wind);
+        holder.mContentView.setText("City: " + mValues.get(position).city + " Temp: " + mValues.get(position).temp + "°С Wind: " + mValues.get(position).wind + " м\\c");
+        holder.mDescriptionView.setText("Description: " + mValues.get(position).description);
+
 
     }
 
@@ -52,6 +54,7 @@ public class WeatherRecycleViewAdapter extends RecyclerView.Adapter<WeatherRecyc
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
+        public final TextView mDescriptionView;
         public DummyContent.WeatherDateItem mItem;
 
         public ViewHolder(View view) {
@@ -59,6 +62,9 @@ public class WeatherRecycleViewAdapter extends RecyclerView.Adapter<WeatherRecyc
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.item_number);
             mContentView = (TextView) view.findViewById(R.id.content);
+
+            mDescriptionView = (TextView) view.findViewById(R.id.desc);
+
         }
 
         @Override

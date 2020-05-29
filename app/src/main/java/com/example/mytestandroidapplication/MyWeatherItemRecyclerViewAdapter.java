@@ -39,7 +39,7 @@ public class MyWeatherItemRecyclerViewAdapter extends RecyclerView.Adapter<MyWea
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(mValues.get(position).date);
-        holder.mContentView.setText(mValues.get(position).city + " " + mValues.get(position).temp );
+        holder.mContentView.setText(mValues.get(position).city + " " + mValues.get(position).temp  );
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
