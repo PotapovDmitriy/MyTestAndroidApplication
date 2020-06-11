@@ -10,4 +10,9 @@
     <string name="arrow"><![CDATA[<-]]></string>
     <string name="lights">Фонарик</string>
     <string name="request_history">История запросов</string>
+    <string name="nav_header_title">Меню приложения</string>
+    <string name="nav_header_subtitle">Погода</string>
+    <string name="nav_header_desc">Меню приложения</string>
+    <string name="home">Домашняя страница</string>
+    <string name="list">Список запросов</string>
 </resources>
