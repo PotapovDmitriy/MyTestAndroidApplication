@@ -7,6 +7,7 @@ import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,9 +16,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +36,7 @@ import com.example.mytestandroidapplication.JsonRequest;
 import com.example.mytestandroidapplication.R;
 import com.example.mytestandroidapplication.WeatherItemFragment;
 import com.example.mytestandroidapplication.dummy.DummyContent;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -52,6 +57,7 @@ public class WeatherShowFragment extends Fragment {
     static TextView city, temp, windSp, tvWeather;
     EditText etCity;
     Button showBTN;
+    ImageView imageV;
     private static final int NOTIFY_ID = 101;
     String cityName;
 
@@ -62,6 +68,7 @@ public class WeatherShowFragment extends Fragment {
         View root = inflater.inflate(R.layout.activity_main, container, false);
 
 
+        imageV = root.findViewById(R.id.imageWeath);
         city = root.findViewById(R.id.city);
         temp = root.findViewById(R.id.temp);
         windSp = root.findViewById(R.id.windSp);
@@ -88,7 +95,7 @@ public class WeatherShowFragment extends Fragment {
         }
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(requireContext(), CHANNEL_ID)
-                        .setContentTitle("Погода в " + city)
+                        .setContentTitle("Погода в городе " + city)
                         .setContentText(text)
                         .setSmallIcon(R.drawable.weather_icon)
                         .setChannelId(CHANNEL_ID)
@@ -101,7 +108,10 @@ public class WeatherShowFragment extends Fragment {
     public void onShowWeatherClick(View view) {
         System.out.println(etCity.length() == 0);
         if (etCity.length() == 0) {
-            temp.setText("Поле \"Город\" пустое");
+            temp.setText("");
+            windSp.setText("Поле \"Город\" пустое");
+            tvWeather.setText("");
+            imageV.setVisibility(View.GONE);
         } else {
             String apiKey = "18d82c5a0c9f97611a9864ef7b3c2d34";
             cityName = etCity.getText().toString();
@@ -118,8 +128,6 @@ public class WeatherShowFragment extends Fragment {
     }
 
 
-
-
     @SuppressLint("StaticFieldLeak")
     class AsyncRequest extends AsyncTask<String, Void, JSONObject> {
 
@@ -128,78 +136,57 @@ public class WeatherShowFragment extends Fragment {
             return JsonRequest.readJsonFromUrl("http://api.openweathermap.org/data/2.5/weather?q=" + arg[0] + "&appid=" + arg[1] + "&units=metric&lang=ru");
         }
 
-        @SuppressLint("SetTextI18n")
+        @SuppressLint({"SetTextI18n", "ResourceAsColor"})
         @Override
         protected void onPostExecute(JSONObject json) {
             try {
                 float tempF = (float) json.getJSONObject("main").getDouble("temp");
                 float windF = (float) json.getJSONObject("wind").getInt("speed");
+
                 JSONArray weather = json.getJSONArray("weather");
                 String description = weather.getJSONObject(0).getString("description");
+                String imageID = weather.getJSONObject(0).getString("icon");
                 System.out.println(description);
-                String notifyString = "Температура: " + tempF + "°С";
+                String notifyString = tempF + "°С";
                 temp.setText(notifyString);
                 windSp.setText("Скорость ветра: " + windF + " м/с");
                 tvWeather.setText(description);
                 notifyString = notifyString + "; " + description;
+                imageV.setVisibility(View.VISIBLE);
+                imageV.setBackgroundColor(R.color.colorBackImage);
+                loadImageFromUrl("http://openweathermap.org/img/wn/" + imageID + "@2x.png");
+
+                Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.scale);
+                imageV.startAnimation(animation);
 
                 notifyMethod(cityName, notifyString);
                 DummyContent.addItem(new DummyContent.WeatherDateItem(new Date().toString(), cityName, tempF, windF, description));
 
             } catch (Exception e) {
-                temp.setText("Неверный город");
+
+                temp.setText("");
+                windSp.setText("Неверный город");
+                tvWeather.setText("");
+                imageV.setVisibility(View.GONE);
                 e.printStackTrace();
             }
         }
 
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater inflater = requireActivity().getMenuInflater();
-//        inflater.inflate(R.menu.menu, menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
+    private void loadImageFromUrl(String url) {
+        Picasso.with(getContext()).load(url).placeholder(R.mipmap.ic_launcher)
+                .error(R.mipmap.ic_launcher)
+                .into(imageV, new com.squareup.picasso.Callback() {
+                    @Override
+                    public void onSuccess() {
 
-//    public void checkPermission() {
-//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-//                != PackageManager.PERMISSION_GRANTED) {
-//            Toast.makeText(this, "Camera permission not found", Toast.LENGTH_SHORT);
-//            ActivityCompat.requestPermissions(this, new String[]{
-//                    Manifest.permission.CAMERA}, 0);
-//
-//        }
-//    }
+                    }
 
+                    @Override
+                    public void onError() {
 
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.light:
-//                if (cam == null) {
-//                    checkPermission();
-//                    cam = Camera.open();
-//                }
-//                t = new Thread(new Runnable() {
-//                    public void run() {
-//                        Camera.Parameters p = cam.getParameters();
-//                        if (lightOn) {
-//                            p.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-//                            lightOn = false;
-//                        } else {
-//                            lightOn = true;
-//                            p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-//                        }
-//                        cam.setParameters(p);
-//                        cam.startPreview();
-//                    }
-//                });
-//                t.start();
-//                break;
-//            case R.id.weather_list:
-//                Intent intentWeather = new Intent(this, WeatherListActivity.class);
-//                startActivity(intentWeather);
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+                    }
+                });
+    }
 }
