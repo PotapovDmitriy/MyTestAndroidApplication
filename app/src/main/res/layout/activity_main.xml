@@ -18,7 +18,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:background="@drawable/border"
-            android:onClick="onShowWeatherClick"
             android:padding="15sp"
             android:text="@string/show_weather"
             android:textColor="@color/white" />

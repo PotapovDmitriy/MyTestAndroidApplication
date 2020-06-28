@@ -1,5 +1,4 @@
-package com.example.mytestandroidapplication;
-
+package com.example.mytestandroidapplication.fragments;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -10,10 +9,12 @@ import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,13 +22,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
+import com.example.mytestandroidapplication.JsonRequest;
+import com.example.mytestandroidapplication.R;
+import com.example.mytestandroidapplication.WeatherItemFragment;
 import com.example.mytestandroidapplication.dummy.DummyContent;
 
 import org.json.JSONArray;
@@ -36,7 +39,11 @@ import org.json.JSONObject;
 import java.util.Date;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
+import static android.content.Context.INPUT_METHOD_SERVICE;
+
+
+public class WeatherShowFragment extends Fragment {
+
 
     private Camera cam;
     private boolean lightOn = false;
@@ -49,29 +56,38 @@ public class MainActivity extends AppCompatActivity {
     String cityName;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        View root = inflater.inflate(R.layout.activity_main, container, false);
 
 
-        city = findViewById(R.id.city);
-        temp = findViewById(R.id.temp);
-        windSp = findViewById(R.id.windSp);
-        etCity = findViewById(R.id.etCity);
-        showBTN = findViewById(R.id.show_weather);
-        tvWeather = findViewById(R.id.tvWeather);
+        city = root.findViewById(R.id.city);
+        temp = root.findViewById(R.id.temp);
+        windSp = root.findViewById(R.id.windSp);
+        etCity = root.findViewById(R.id.etCity);
+        showBTN = root.findViewById(R.id.show_weather);
+        tvWeather = root.findViewById(R.id.tvWeather);
+        showBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onShowWeatherClick(v);
+            }
+        });
+        return root;
     }
 
 
     private void notifyMethod(String city, String text) {
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(MainActivity.this);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(requireContext());
         String CHANNEL_ID = "Weather channel";
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_ID, NotificationManager.IMPORTANCE_HIGH);
             notificationManager.createNotificationChannel(channel);
         }
         NotificationCompat.Builder builder =
-                new NotificationCompat.Builder(MainActivity.this, CHANNEL_ID)
+                new NotificationCompat.Builder(requireContext(), CHANNEL_ID)
                         .setContentTitle("Погода в " + city)
                         .setContentText(text)
                         .setSmallIcon(R.drawable.weather_icon)
@@ -89,17 +105,19 @@ public class MainActivity extends AppCompatActivity {
         } else {
             String apiKey = "18d82c5a0c9f97611a9864ef7b3c2d34";
             cityName = etCity.getText().toString();
-            Toast.makeText(this, cityName, Toast.LENGTH_SHORT);
+            Toast.makeText(requireContext(), cityName, Toast.LENGTH_SHORT);
             System.out.println("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + apiKey);
 
-            MainActivity.AsyncRequest task = new MainActivity.AsyncRequest();
+            WeatherShowFragment.AsyncRequest task = new WeatherShowFragment.AsyncRequest();
             task.execute(cityName, apiKey);
             etCity.clearFocus();
-            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(INPUT_METHOD_SERVICE);
             assert imm != null;
-            imm.hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus()).getWindowToken(), 0);
+            imm.hideSoftInputFromWindow(Objects.requireNonNull(requireActivity().getCurrentFocus()).getWindowToken(), 0);
         }
     }
+
+
 
 
     @SuppressLint("StaticFieldLeak")
@@ -136,53 +154,52 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = requireActivity().getMenuInflater();
+//        inflater.inflate(R.menu.menu, menu);
+//        return super.onCreateOptionsMenu(menu);
+//    }
 
-    public void checkPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "Camera permission not found", Toast.LENGTH_SHORT);
-            ActivityCompat.requestPermissions(this, new String[]{
-                    Manifest.permission.CAMERA}, 0);
+//    public void checkPermission() {
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+//                != PackageManager.PERMISSION_GRANTED) {
+//            Toast.makeText(this, "Camera permission not found", Toast.LENGTH_SHORT);
+//            ActivityCompat.requestPermissions(this, new String[]{
+//                    Manifest.permission.CAMERA}, 0);
+//
+//        }
+//    }
 
-        }
-    }
 
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.light:
-                if (cam == null) {
-                    checkPermission();
-                    cam = Camera.open();
-                }
-                t = new Thread(new Runnable() {
-                    public void run() {
-                        Camera.Parameters p = cam.getParameters();
-                        if (lightOn) {
-                            p.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-                            lightOn = false;
-                        } else {
-                            lightOn = true;
-                            p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-                        }
-                        cam.setParameters(p);
-                        cam.startPreview();
-                    }
-                });
-                t.start();
-                break;
-            case R.id.weather_list:
-                Intent intentWeather = new Intent(this, WeatherListActivity.class);
-                startActivity(intentWeather);
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.light:
+//                if (cam == null) {
+//                    checkPermission();
+//                    cam = Camera.open();
+//                }
+//                t = new Thread(new Runnable() {
+//                    public void run() {
+//                        Camera.Parameters p = cam.getParameters();
+//                        if (lightOn) {
+//                            p.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+//                            lightOn = false;
+//                        } else {
+//                            lightOn = true;
+//                            p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+//                        }
+//                        cam.setParameters(p);
+//                        cam.startPreview();
+//                    }
+//                });
+//                t.start();
+//                break;
+//            case R.id.weather_list:
+//                Intent intentWeather = new Intent(this, WeatherListActivity.class);
+//                startActivity(intentWeather);
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 }
-
