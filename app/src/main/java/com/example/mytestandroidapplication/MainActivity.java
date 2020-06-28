@@ -28,17 +28,7 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -75,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int NOTIFY_ID = 101;
 
-    private void notifyMethod(String city, String text){
+    private void notifyMethod(String city, String text) {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(MainActivity.this);
         String CHANNEL_ID = "Weather channel";
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -86,37 +76,10 @@ public class MainActivity extends AppCompatActivity {
                 new NotificationCompat.Builder(MainActivity.this, CHANNEL_ID)
                         .setContentTitle("Погода в " + city)
                         .setContentText(text)
-                        .setSmallIcon(R.drawable.racer)
+                        .setSmallIcon(R.drawable.weather_icon)
                         .setChannelId(CHANNEL_ID)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT);
         notificationManager.notify(NOTIFY_ID, builder.build());
-    }
-
-
-    protected static String readAll(Reader bufferedReader) throws IOException {
-        StringBuilder stringBuilder = new StringBuilder();
-        int currentChar;
-        while ((currentChar = bufferedReader.read()) != -1) {
-            stringBuilder.append((char) currentChar);
-        }
-        return stringBuilder.toString();
-    }
-
-    protected static JSONObject readJsonFromUrl(String url) {
-        JSONObject json = null;
-
-        try (InputStream inputStream = new URL(url).openStream()) {
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, Charset.forName("UTF-8")));
-            String jsonText = readAll(bufferedReader);
-            json = new JSONObject(jsonText);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return json;
     }
 
 
@@ -141,37 +104,38 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-class AsyncRequest extends AsyncTask<String, Void, JSONObject> {
+    @SuppressLint("StaticFieldLeak")
+    class AsyncRequest extends AsyncTask<String, Void, JSONObject> {
 
-    @Override
-    protected JSONObject doInBackground(String... arg) {
-        return readJsonFromUrl("http://api.openweathermap.org/data/2.5/weather?q=" + arg[0] + "&appid=" + arg[1] + "&units=metric");
-    }
-
-    @SuppressLint("SetTextI18n")
-    @Override
-    protected void onPostExecute(JSONObject json) {
-        try {
-            float tempF = (float) json.getJSONObject("main").getDouble("temp");
-            float windF = (float) json.getJSONObject("wind").getInt("speed");
-            JSONArray weather = json.getJSONArray("weather");
-            String description = weather.getJSONObject(0).getString("description");
-            System.out.println(description);
-            String notifyString = "Температура: " + tempF + "°С";
-            temp.setText(notifyString);
-            windSp.setText("Скорость ветра: " + windF + " м/с");
-            tvWeather.setText(description);
-            notifyString = notifyString + "; " + description;
-
-            notifyMethod(cityName, notifyString);
-
-        } catch (Exception e) {
-            temp.setText("Неверный город");
-            e.printStackTrace();
+        @Override
+        protected JSONObject doInBackground(String... arg) {
+            return JsonRequest.readJsonFromUrl("http://api.openweathermap.org/data/2.5/weather?q=" + arg[0] + "&appid=" + arg[1] + "&units=metric&lang=ru");
         }
-    }
 
-}
+        @SuppressLint("SetTextI18n")
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            try {
+                float tempF = (float) json.getJSONObject("main").getDouble("temp");
+                float windF = (float) json.getJSONObject("wind").getInt("speed");
+                JSONArray weather = json.getJSONArray("weather");
+                String description = weather.getJSONObject(0).getString("description");
+                System.out.println(description);
+                String notifyString = "Температура: " + tempF + "°С";
+                temp.setText(notifyString);
+                windSp.setText("Скорость ветра: " + windF + " м/с");
+                tvWeather.setText(description);
+                notifyString = notifyString + "; " + description;
+
+                notifyMethod(cityName, notifyString);
+
+            } catch (Exception e) {
+                temp.setText("Неверный город");
+                e.printStackTrace();
+            }
+        }
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
