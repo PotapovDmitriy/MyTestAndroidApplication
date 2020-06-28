@@ -81,6 +81,7 @@ public class WeatherShowFragment extends Fragment {
                 onShowWeatherClick(v);
             }
         });
+        imageV.setVisibility(View.GONE);
         return root;
     }
 
@@ -153,7 +154,7 @@ public class WeatherShowFragment extends Fragment {
                 tvWeather.setText(description);
                 notifyString = notifyString + "; " + description;
                 imageV.setVisibility(View.VISIBLE);
-                imageV.setBackgroundColor(R.color.colorBackImage);
+//                imageV.setBackgroundColor(R.color.colorBackImage);
                 loadImageFromUrl("http://openweathermap.org/img/wn/" + imageID + "@2x.png");
 
                 Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.scale);
