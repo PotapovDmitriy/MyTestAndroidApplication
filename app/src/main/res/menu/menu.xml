@@ -16,6 +16,11 @@
         app:showAsAction="ifRoom">
 
     </item>
+    <item
+        android:id="@+id/weather_list"
+        android:title="@string/request_history"
+        app:showAsAction="ifRoom">
+    </item>
 
 
 
