@@ -157,8 +157,8 @@ public class WeatherShowFragment extends Fragment {
 //                imageV.setBackgroundColor(R.color.colorBackImage);
                 loadImageFromUrl("http://openweathermap.org/img/wn/" + imageID + "@2x.png");
 
-                Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.scale);
-                imageV.startAnimation(animation);
+//                Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.scale);
+//                imageV.startAnimation(animation);
 
                 notifyMethod(cityName, notifyString);
                 DummyContent.addItem(new DummyContent.WeatherDateItem(new Date().toString(), cityName, tempF, windF, description));
