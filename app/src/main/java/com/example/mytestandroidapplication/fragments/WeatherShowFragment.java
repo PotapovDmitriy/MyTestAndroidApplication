@@ -176,8 +176,8 @@ public class WeatherShowFragment extends Fragment {
     }
 
     private void loadImageFromUrl(String url) {
-        Picasso.with(getContext()).load(url).placeholder(R.mipmap.ic_launcher)
-                .error(R.mipmap.ic_launcher)
+        Picasso.with(getContext()).load(url).placeholder(R.drawable.ic_download)
+                .error(R.drawable.ic_download)
                 .into(imageV, new com.squareup.picasso.Callback() {
                     @Override
                     public void onSuccess() {
