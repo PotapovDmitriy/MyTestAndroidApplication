@@ -9,11 +9,10 @@
     <fragment
         android:id="@+id/weather_fragment"
         android:name="com.example.mytestandroidapplication.WeatherItemFragment"
-        android:layout_width="360dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="40dp"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout="@layout/fragment_weather_item_list" />
